@@ -4,7 +4,7 @@ import Fish from './Fish'
 import Crab from './Crab'
 
 
-class suspendedProtege extends React.Component {
+class UserMan extends React.Component {
 
   constructor(props) {
     super(props); 
@@ -38,28 +38,18 @@ class suspendedProtege extends React.Component {
     const goodninjas = ninjas.filter(x => x.status === 'active' || x.status === 'onboarding');
     const badninjas = ninjas.filter(x => x.status === 'inactive');
     
+    // show 'good' proteges
     const goodninjaList = goodninjas.map(ninja => {
-
       return (
-
-        <div>
-          <Fish ninja={ninja} passhandleSubmit={this.passhandleSubmit} passhandleDelete={this.passhandleDelete}/>
-        </div>
-
+        <Fish ninja={ninja} passhandleSubmit={this.passhandleSubmit} passhandleDelete={this.passhandleDelete}/>
       );
-    
     })
-  
+
+    // show 'bad' proteges
     const badninjaList = badninjas.map(samurai => {
-
       return (
-
-        <div>
-          <Crab ninja={samurai} passhandleSubmit={this.passhandleSubmit} passhandleDelete={this.passhandleDelete} passhandlePermaDelete={this.passhandlePermaDelete} />
-        </div>
-
+        <Crab ninja={samurai} passhandleSubmit={this.passhandleSubmit} passhandleDelete={this.passhandleDelete} passhandlePermaDelete={this.passhandlePermaDelete} />
       )
-
     })
 
     return(
@@ -70,12 +60,11 @@ class suspendedProtege extends React.Component {
       </div>
     
     )
-
   }
 }
 
-suspendedProtege.propTypes = {
+UserMan.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default (suspendedProtege);
+export default UserMan;

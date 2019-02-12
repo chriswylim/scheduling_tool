@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
+// import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
@@ -39,19 +39,23 @@ const styles = theme => ({
     actions: {
         display: 'flex',
     },
+    
     avatar: {
       backgroundColor: 'white',
       margin: 5,
       width: 50,
       height: 50,
     },
+    
     button: {
       margin: theme.spacing.unit,
     },
+    
     card: {
       //maxWidth: 800,
       backgroundColor: 'white[500]'
     },
+    
     expand: {
       transform: 'rotate(0deg)',
       marginLeft: 'auto',
@@ -59,19 +63,24 @@ const styles = theme => ({
         duration: theme.transitions.duration.shortest,
       }),
     },
+    
     expandOpen: {
       transform: 'rotate(180deg)',
     },
+    
     indentation:{
       width: 80,
     },
+    
     item: {
       paddingTop: theme.spacing.unit,
     },
+    
     media: {
       height: 0,
       paddingTop: '56.25%', // 16:9
     },
+    
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
@@ -80,7 +89,7 @@ const styles = theme => ({
 
 });
 
-class PhuahHim extends Component{
+class activeProtege extends Component{
 
     constructor(props) {
 
@@ -92,7 +101,8 @@ class PhuahHim extends Component{
         this.state = {
             expanded: false,
             isPencil: false,
-            deleteDialog: false,
+            suspendDialog: false,
+            ninja: this.props.ninja,
         }
         
     }
@@ -111,34 +121,35 @@ class PhuahHim extends Component{
 
     }
 
-    handleChange = (event) => {
+    handleChange = (propertyName) => (event) => {
 
-        // while loop here --- includes.id == value -> false, then proceed, else prompt error that duplicate was found!
-        this.setState({ [event.target.id]: event.target.value });
-        console.log([event.target.id]);
-        console.log(event.target.value);
+        const babyninja = this.state.ninja;
+        // console.log('babyninja is ', babyninja);
+
+        console.log('propertyName is ', propertyName);
+
+        const mockNinja = { ...babyninja, [propertyName]: event.target.value};
+        // console.log('mockNinja is ', mockNinja);
+
+        this.setState({ ninja: mockNinja });
+        console.log('this state ninja is ', this.state.ninja);
+        
         event.preventDefault();
 
     }
 
     handleSubmit = (samurai) => {
 
-        // set up mock
-        var newNinja = Object.assign({}, samurai);
-        // console.log("new mock ninja is ", newNinja)
+        // var newNinja = Object.assign({}, samurai);
+        // // console.log("new mock ninja is ", newNinja)
 
-        var newUpdate = Object.assign({}, this.state);
+        var newUpdate = Object.assign({}, this.state.ninja);
         // console.log("prior update is ", newUpdate)
 
-        // Remove stateful (useless) state data
-        delete newUpdate.expanded;
-        delete newUpdate.isPencil;
-        delete newUpdate.deleteDialog;
-
-        // console.log('before newNinja is ', newNinja)
-        newNinja[Object.keys(newUpdate)] = Object.values(newUpdate).toString();
-
-        this.props.passhandleSubmit(newNinja);
+        // console.log ('In handleSubmit, newNinja is ', newNinja);
+        // console.log ('In handleSubmit, newUpdate is ', newUpdate);
+        
+        this.props.passhandleSubmit(newUpdate);
         this.togglePencil();
     
     }
@@ -151,23 +162,22 @@ class PhuahHim extends Component{
     
     }
 
-    openDeleteDialog = () => {
+    openSuspendDialog = () => {
         
-        this.setState({ deleteDialog: true });
+        this.setState({ suspendDialog: true });
     
     };
     
-    submitDeleteDialog = (samurai) => {
+    submitSuspendDialog = (samurai) => {
 
         this.handleDelete(samurai);
-        this.closeDeleteDialog();
-        // console.log(this.state);
+        this.closeSuspendDialog();
     
     }
 
-    closeDeleteDialog = () => {
+    closeSuspendDialog = () => {
         
-        this.setState({ deleteDialog: false });
+        this.setState({ suspendDialog: false });
     
     };
 
@@ -197,7 +207,7 @@ class PhuahHim extends Component{
                                         </IconButton>
 
                                         <IconButton>
-                                            <DeleteIcon className={classes.button} onClick={this.openDeleteDialog.bind(this, ninja)} />
+                                            <DeleteIcon className={classes.button} onClick={this.openSuspendDialog.bind(this, ninja)} />
                                             {/* <DeleteIcon className={classes.button} onClick={this.handleDelete.bind(this, ninja)} /> */}
                                         </IconButton>
                                     </div>   
@@ -335,11 +345,7 @@ class PhuahHim extends Component{
                                     </div>
 
                                 }
-                                title={ 
-                                    <div> 
-                                        {ninja.id}. {ninja.displayName} ({ninja.username}) 
-                                    </div> 
-                                }  
+                                title={ <div> {ninja.id}. {ninja.displayName} ({ninja.username}) </div> }  
                                 subheader={ninja.status}
                             />
                             
@@ -354,7 +360,7 @@ class PhuahHim extends Component{
                                     <Grid item xs>
                                         <div> 
                                             <div>
-                                                <TextField onChange={this.handleChange.bind(this)}
+                                                <TextField onChange={this.handleChange('displayName')}
                                                     id="displayName"
                                                     label="Display Name"
                                                     placeholder="(e.g. : Andrew John, LEE)"
@@ -367,7 +373,7 @@ class PhuahHim extends Component{
                                             </div>
 
                                             <div>
-                                                <TextField onChange={this.handleChange.bind(this)}
+                                                <TextField onChange={this.handleChange('username')}
                                                     id="username"
                                                     label="Username"
                                                     placeholder="(e.g. : ABCDEFGH)"
@@ -385,7 +391,7 @@ class PhuahHim extends Component{
                                     <Grid item xs>
                                         <div> 
                                             <div>
-                                                <TextField onChange={this.handleChange.bind(this)}
+                                                <TextField onChange={this.handleChange('mentor')}
                                                     id="mentor"
                                                     label="Mentor's Name"
                                                     placeholder="(e.g. : Andrew John, LEE)"
@@ -399,7 +405,7 @@ class PhuahHim extends Component{
                                             </div>
 
                                             <div>
-                                                <TextField onChange={this.handleChange.bind(this)}
+                                                <TextField onChange={this.handleChange('memail')}
                                                     id="memail"
                                                     label="Mentor's Email"
                                                     placeholder="(e.g. : andrew_lee@astro.com.my)"
@@ -433,27 +439,27 @@ class PhuahHim extends Component{
                 }
 
                 <Dialog
-                open={this.state.deleteDialog}
+                open={this.state.suspendDialog}
                 onClose={this.closeDeleteDialog}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
                 >
                 
                     <DialogTitle>
-                        SUSPEND PROTEGE
+                        Suspend Protege?
                     </DialogTitle>
                     
                     <DialogContent>
                         <DialogContentText>
-                            Are you sure you want to suspend "<b> {ninja.displayName} </b>" ?
+                            Are you sure you want to suspend <b> {ninja.displayName} </b>?
                         </DialogContentText>
                     </DialogContent>
                     
                     <DialogActions>
-                        <Button onClick={this.submitDeleteDialog.bind(this, ninja)} color="primary">
+                        <Button onClick={this.submitSuspendDialog.bind(this, ninja)} color="primary">
                             Confirm
                         </Button>
-                        <Button onClick={this.closeDeleteDialog} color="primary" autoFocus>
+                        <Button onClick={this.closeSuspendDialog} color="primary" autoFocus>
                             Cancel
                         </Button>
                     </DialogActions>
@@ -468,8 +474,8 @@ class PhuahHim extends Component{
 
 }
 
-PhuahHim.propTypes = {
+activeProtege.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PhuahHim);
+export default withStyles(styles)(activeProtege);

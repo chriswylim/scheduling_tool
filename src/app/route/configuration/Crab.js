@@ -42,19 +42,23 @@ const styles = theme => ({
     actions: {
         display: 'flex',
     },
+    
     avatar: {
       backgroundColor: 'black',
       margin: 5,
       width: 50,
       height: 50,
     },
+    
     button: {
       margin: theme.spacing.unit,
     },
+    
     card: {
       //maxWidth: 800,
       backgroundColor: 'grey'
     },
+    
     expand: {
       transform: 'rotate(0deg)',
       marginLeft: 'auto',
@@ -62,19 +66,24 @@ const styles = theme => ({
         duration: theme.transitions.duration.shortest,
       }),
     },
+    
     expandOpen: {
       transform: 'rotate(180deg)',
     },
+    
     indentation:{
       width: 80,
     },
+    
     item: {
       paddingTop: theme.spacing.unit,
     },
+    
     media: {
       height: 0,
       paddingTop: '56.25%', // 16:9
     },
+    
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
@@ -83,12 +92,12 @@ const styles = theme => ({
 
 });
 
-class PhuahHer extends Component{
+class suspendedProtege extends Component{
 
     constructor(props) {
 
         super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        // this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handlePermaDelete = this.handlePermaDelete.bind(this);
 
@@ -117,75 +126,6 @@ class PhuahHer extends Component{
         this.props.passhandleDelete(newNinja);
 
 	}
-
-    handleChange = (event) => {
-
-        // while loop here --- includes.id == value -> false, then proceed, else prompt error that duplicate was found!
-        // while (this.state)
-        
-        this.setState({
-            [event.target.id] : event.target.value
-        });
-
-        // console.log(event.target.value)
-        //console.log(event.target.value); //this.state = (event.target.value); -- found in this.state.displayName, this.state.username, etc.
-
-    }
-
-    handleSubmit = (samurai) => {
-        
-        // Create a copy of existing ninja!
-        //console.log("THIS ROCKS ", samurai);
-
-        // set up mock
-        var newNinja = Object.assign({}, samurai);
-        //console.log("new mock ninja is ", newNinja)
-
-        // Collect the changes from state!
-        //console.log("state is ", this.state)
-
-        var newUpdate = Object.assign({}, this.state);
-        //console.log("prior update is ", newUpdate)
-
-        // Remove stateful (useless) state data
-        delete newUpdate.expanded;
-        delete newUpdate.isPencil;
-        delete newUpdate.deleteDialog;
-        delete newUpdate.permadeleteDialog;
-        delete newUpdate.userConfirm;
-
-        // console.log("new update is ", newUpdate)
-        // Patch update bro!
-        //console.log(Object.keys(newUpdate)); -- displayName
-        //console.log(Object.values(newUpdate)); -- newChris
-
-        // console.log('samurai is ', samurai)
-        // console.log(Object.values(newUpdate).toString())
-
-        // console.log('before newNinja is ', newNinja)
-        newNinja[Object.keys(newUpdate)] = Object.values(newUpdate).toString();
-        // console.log('after newNinja is ', newNinja)
-
-        //console.log("New Ninja is ", newNinja)
-        //console.log("Old Ninja is ", newUpdate);
-        this.props.passhandleSubmit(newNinja);
-        //console.log(this.props.AddAProtege(this.state));
-
-        // var newNinja = {};
-        // var newUpdate = {};
-
-        this.togglePencil();
-    
-    }
-
-    togglePencil() {
-
-		this.setState({
-			isPencil: !this.state.isPencil
-		})
-    
-    }
-
     
     openDeleteDialog = () => {
         
@@ -271,10 +211,6 @@ class PhuahHer extends Component{
                                 }
                                 action = {
                                     <div> 
-                                        <IconButton>
-                                            <EditIcon className={classes.button} onClick={this.togglePencil.bind(this, ninja)} />
-                                        </IconButton>
-
                                         <IconButton>
                                             <DeleteIcon className={classes.button} onClick={this.openDeleteDialog.bind(this, ninja)} />
                                             {/* <DeleteIcon className={classes.button} onClick={this.handleDelete.bind(this, ninja)} /> */}
@@ -393,129 +329,6 @@ class PhuahHer extends Component{
                     <br /> </div>
                 }
 
-                {/* Edit ON */}
-                { this.state.isPencil && 
-         
-                    <div>
-                        
-                        <Card className={classes.card}>
-                            <CardHeader
-                                avatar = {
-                                    <Avatar className={classes.avatar}>
-                                        <div> {ninja.displayName[0]} </div>
-                                    </Avatar>
-                                }
-                                action = {
-
-                                    <div> 
-                                        <IconButton> 
-                                            <SaveIcon className={classes.button} onClick={this.handleSubmit.bind(this, ninja)} /> 
-                                        </IconButton>
-
-                                        {/* onClick={() => this.onClick(ninja)} --> works too */}
-                                        <IconButton >  
-                                            <CancelIcon className={classes.button} onClick={this.togglePencil.bind(this, ninja)} /> 
-                                        </IconButton>
-                                    </div>
-
-                                }
-                                title={ 
-                                    <div> 
-                                        {ninja.id}. {ninja.displayName} ({ninja.username}) 
-                                    </div> 
-                                }  
-                                subheader={ninja.status}
-                            />
-                            
-                            <Divider variant="middle" />
-                            
-                            <CardContent>
-                                
-                                <Grid container spacing={16} className={classes.item}>
-                                    <Grid item className={classes.indentation}> </Grid>
-
-                                    <Grid item xs>
-                                        <div> 
-                                            <div>
-                                                <TextField onChange={this.handleChange.bind(this)}
-                                                    id="displayName"
-                                                    label="Display Name"
-                                                    placeholder="(e.g. : Andrew John, LEE)"
-                                                    className={classes.textField}
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                    margin="normal"
-                                                />
-                                            </div>
-
-                                            <div>
-                                                <TextField onChange={this.handleChange.bind(this)}
-                                                    id="username"
-                                                    label="Username"
-                                                    placeholder="(e.g. : ABCDEFGH)"
-                                                    defaultValue={ninja.username}
-                                                    className={classes.textField}
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                    margin="normal"
-                                                />
-                                            </div>                                            
-                                        </div>
-                                    </Grid>
-                                    
-                                    <Grid item xs>
-                                        <div> 
-                                            <div>
-                                                <TextField onChange={this.handleChange.bind(this)}
-                                                    id="mentor"
-                                                    label="Mentor's Name"
-                                                    placeholder="(e.g. : Andrew John, LEE)"
-                                                    defaultValue={ninja.mentor}
-                                                    className={classes.textField}
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                    margin="normal"
-                                                />
-                                            </div>
-
-                                            <div>
-                                                <TextField onChange={this.handleChange.bind(this)}
-                                                    id="memail"
-                                                    label="Mentor's Email"
-                                                    placeholder="(e.g. : andrew_lee@astro.com.my)"
-                                                    defaultValue={ninja.memail}
-                                                    className={classes.textField}
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                    margin="normal"
-                                                />
-                                            </div>                                            
-                                        </div>
-                                    </Grid>
-                                    
-                                    <Grid item xs> 
-
-                                        <Typography variant='body1'> For changes of electives: </Typography>
-                                        <Typography variant='body2' paragraph> Kindly visit your 'Schedule' tab from the sidebar! </Typography>
-
-                                    </Grid>
-
-                                    <Grid item className={classes.indentation}> </Grid>
-                                </Grid>
-
-                            </CardContent>
-                            
-                        </Card>
-                    
-                    <br /> </div>
-                
-                }
-
-
                 <Dialog
                 open={this.state.deleteDialog}
                 onClose={this.closeDeleteDialog}
@@ -524,12 +337,12 @@ class PhuahHer extends Component{
                 >
                 
                     <DialogTitle>
-                        UNSUSPEND PROTEGE
+                        Unsuspend Protege?
                     </DialogTitle>
                     
                     <DialogContent>
                         <DialogContentText>
-                            Are you sure you want to unsuspend "<b> {ninja.displayName} </b>" ?
+                            Are you sure you want to unsuspend <b> {ninja.displayName} </b>?
                         </DialogContentText>
                     </DialogContent>
                     
@@ -553,12 +366,12 @@ class PhuahHer extends Component{
                 >
                 
                     <DialogTitle>
-                        PERMENANTLY DELETE PROTEGE
+                        Permenantly Delete Protege?
                     </DialogTitle>
                     
                     <DialogContent>
                         <DialogContentText>
-                            Are you sure you want to delete "<b> {ninja.displayName} </b>" ?
+                            Are you sure you want to delete <b> {ninja.displayName} </b>?
                             <br /> <Prawn ninja={ninja} handlePassConfirm={this.handlePassConfirm} />
                         </DialogContentText>
                     </DialogContent>
@@ -622,8 +435,8 @@ function Greeting(props) {
     return <GuestGreeting />;
 }
 
-PhuahHer.propTypes = {
+suspendedProtege.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PhuahHer);
+export default withStyles(styles)(suspendedProtege);

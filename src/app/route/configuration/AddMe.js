@@ -50,21 +50,10 @@ const styles = theme => ({
     },
     
     dense: {
-        marginTop: 19,
+        marginTop: 20,
     },
 });
 
-// // Tue Nov 27 2018 15:28:27 GMT+0800 (UTC)
-// const birthday  = new Date();
-
-// // getDateComponents
-// const YYYY = birthday.getFullYear();    // 1980
-// const MM = birthday.getMonth();         // 6
-// const DD = birthday.getDate();          // 31
-
-// // // Turn const into strings
-// var todaysdate = String(YYYY)+"-"+String(MM)+"-"+String(DD);
-// var estenddate = String(YYYY+2)+"-"+String(MM)+"-"+String(DD);
 
 class AddMe extends Component {
 
@@ -72,15 +61,14 @@ class AddMe extends Component {
         super(); 
         this.state = { _showMessage: false };
         this.state = { id: '', displayName: 'Protege', username: '', mentor: '', memail: '', 
-                     joinDate: "", endDate: "", electives: ["Awaiting selection"], status: 'active'};
-
+                       joinDate: "", endDate: "", electives: ["Selecting..."], status: 'active'};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     _showMessage = (bool) => {
 
-        this.setState({
-            _showMessage: bool
+        this.setState({ 
+            _showMessage: bool 
         });
     
     }
@@ -91,7 +79,9 @@ class AddMe extends Component {
             [e.target.id]: e.target.value
         });
 
-        // console.log(this.state);
+        // console.log([e.target.id])
+        // console.log(e.target.value)
+        console.log(this.state)
     
     }
 
@@ -119,7 +109,7 @@ class AddMe extends Component {
 
                     <br/>
                     
-                    <Grid container spacing={0} direction="column" alignItems="center" justify="center"> 
+                    <Grid container direction="column" alignItems="center" justify="center"> 
                         
                         <Button variant="fab" color="disabled" onClick={this._showMessage.bind(null, true)}>
                             <AddIcon />
@@ -127,7 +117,7 @@ class AddMe extends Component {
 
                     </Grid>
                         
-                    <Grid>
+                    <Grid item>
 
                         { this.state._showMessage && 
                             ( 
@@ -137,11 +127,12 @@ class AddMe extends Component {
 
                                         <form noValidate>
                                         
-                                            <Grid container spacing={16} className={classes.item}>
+                                            <Grid container className={classes.item}>
                                             
                                                 <Grid item className={classes.indentation}> </Grid>
 
                                                 <Grid item xs align='center'>
+
                                                     <TextField onChange={this.handleChange}
                                                         required
                                                         id="displayName"
@@ -153,6 +144,8 @@ class AddMe extends Component {
                                                         }}
                                                         margin="normal"
                                                     />
+
+                                                    {/* <br /> */}
 
                                                     <TextField onChange={this.handleChange}
                                                         required
@@ -221,7 +214,7 @@ class AddMe extends Component {
 
                                             </Grid>
 
-                                            <Grid container spacing={8} className={classes.item}>
+                                            <Grid container className={classes.item}>
                                                 
                                                 <Grid item xs> </Grid>
                                                 <Grid item xs> </Grid>
@@ -235,8 +228,6 @@ class AddMe extends Component {
 
                                     
                                         </form>
-
-                                    {/* </Paper> */}
                                     
                                 </div>
                             ) 
@@ -251,6 +242,7 @@ class AddMe extends Component {
         )
     }
 }
+
 
 AddMe.propTypes = {
     classes: PropTypes.object.isRequired,

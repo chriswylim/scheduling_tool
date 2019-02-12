@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
-
 import Input from '@material-ui/core/Input';
 
 const styles = theme => ({
+    
     container: {
       display: 'flex',
       flexWrap: 'wrap',
@@ -12,6 +11,7 @@ const styles = theme => ({
     input: {
       margin: theme.spacing.unit,
     },
+
 });
 
 
@@ -36,14 +36,10 @@ class LoginControl extends React.Component {
             alert('Incorrect Username, Please Try Again.')
         }
         
-        // console.log(this.state);
-        // this.state.confirmation = '';
-        // console.log(this.state);
-        
     }
 
     handleLogoutClick() {
-        this.setState({isLoggedIn: false});
+        this.setState({ isLoggedIn: false });
     }
 
     handleChange = (event) => {
@@ -61,7 +57,7 @@ class LoginControl extends React.Component {
             button = <LoginButton onClick={this.handleLoginClick} />
         }
         
-        const { ninja } = this.props;
+        // const { ninja } = this.props;
 
         return (
             <div>
@@ -80,7 +76,7 @@ class LoginControl extends React.Component {
 }
 
 function UserGreeting(props) {
-    return <b> SUCCESS! Stay Awesome Mr. Admin. <br /> </b>;
+    return <b> Success! Stay Awesome Mr. Admin. <br /> </b>;
 }
 
 function GuestGreeting(props) {
