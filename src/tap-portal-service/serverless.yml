@@ -1,0 +1,326 @@
+service: tap-portal-service
+
+resources:
+  Resources:
+    ApiGatewayRestApi:
+      Type: AWS::ApiGateway::RestApi
+      Properties:
+        Name: TAP API
+
+  Outputs:
+    apiGatewayRestApiId:
+      Value:
+        Ref: ApiGatewayRestApi
+      Export:
+        Name: apiGateway-restApiId
+    apiGatewayRestApiRootResourceId:
+      Value:
+        Fn::GetAtt:
+          - ApiGatewayRestApi
+          - RootResourceId
+      Export:
+        Name: apiGateway-rootResourceId
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: ap-southeast-1
+  role: arn:aws:iam::906067147605:role/tap-lambda-service
+  timeout: 300
+  apiKeys:
+    - tap-api-key
+  apiGateway:
+    restApiId: 
+      Ref: ApiGatewayRestApi
+    restApiResources:
+      Fn::GetAtt:
+        - ApiGatewayRestApi
+        - RootResourceId
+  deploymentBucket:
+    name: astro-tap-lambda
+  deploymentPrefix: tap
+  stackTags:
+    group: tap
+  environment:
+    SES_REGION: us-east-1
+    SRC_EMAIL: dpapamon@gmail.com
+    DST_EMAIL: dpapamon@gmail.com
+    AWS_DYNAMODB_TABLE: tap-portal
+    SCHEDULE_LAMBDA: tap-scheduling-service-dev-createSchedule
+    AWS_USERPOOL_ID: ap-southeast-1_AbZOpIWGY
+    AWS_CLIENT_ID: 9dunnv8826s8bfdacickjumbi
+    SESSION_TTL: 604800
+
+package:
+  exclude:
+    - node_modules
+
+functions:
+  addManualSchedule:
+    handler: addManualSchedule.handler
+    events:
+      - http:
+          path: /schedule/manual
+          method: post
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  getSchedule:
+    handler: getSchedule.handler
+    events:
+      - http:
+          path: /schedule
+          method: get
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  createSchedule:
+    handler: createSchedule.handler
+    events:
+      - http:
+          path: /schedule
+          method: post
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  authorize:
+    handler: authorize.handler
+    events:
+      - http:
+          path: /authorize
+          method: post
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  confirmForgotPassword:
+    handler: confirmForgotPassword.handler
+    events:
+      - http:
+          path: /confirmforgotpassword
+          method: post
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  forgotPassword:
+    handler: forgotPassword.handler
+    events:
+      - http:
+          path: /forgotpassword
+          method: post
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  changeEmail:
+    handler: changeEmail.handler
+    events:
+      - http:
+          path: /changeemail
+          method: post
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  changePassword:
+    handler: changePassword.handler
+    events:
+      - http:
+          path: /changepassword
+          method: post
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  logIn:
+    handler: logIn.handler
+    events:
+      - http:
+          path: /login
+          method: post
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  logOut:
+    handler: logOut.handler
+    events:
+      - http:
+          path: /logout
+          method: post
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  createUser:
+    handler: createUser.handler
+    events:
+      - http:
+          path: /user
+          method: post
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  listUser:
+    handler: listUser.handler
+    events:
+      - http:
+          path: /user
+          method: get
+          private: true
+          authorizer:
+            arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  getUser:
+    handler: getUser.handler
+    events:
+      - http:
+          path: /user/{userId}
+          method: get
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+          request:
+            parameters:
+              paths:
+                userId: true
+  updateUser:
+    handler: updateUser.handler
+    events:
+      - http:
+          path: /user/{userId}
+          method: put
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+          request:
+            parameters:
+              paths:
+                userId: true
+  deleteUser:
+    handler: deleteUser.handler
+    events:
+      - http:
+          path: /user/{userId}
+          method: delete
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+          request:
+            parameters:
+              paths:
+                userId: true
+  addRotationConfig:
+    handler: addRotationConfig.handler
+    events:
+      - http:
+          path: /config
+          method: post
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  updateRotationConfig:
+    handler: updateRotationConfig.handler
+    events:
+      - http:
+          path: /config
+          method: put
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  deleteRotationConfig:
+    handler: deleteRotationConfig.handler
+    events:
+      - http:
+          path: /config/{rotationId}
+          method: delete
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+          request:
+            parameters:
+              paths:
+                rotationId: true
+  listRotationConfig:
+    handler: listRotationConfig.handler
+    events:
+      - http:
+          path: /config
+          method: get
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+  loadDB:
+    handler: loadDB.handler
+  sendEmail:
+    handler: sendEmail.handler
+    events:
+      - http:
+          path: /email
+          method: post
+          private: true
+          # authorizer:
+          #   arn: ${self:custom.cognito_userpool}
+          cors:
+            origins:
+              - '*'
+      # - schedule: cron(0 2 ? * MON *)
+
+plugins:
+  - serverless-prune-plugin
+
+custom:
+  prune:
+    automatic: true
+    number: 3
+  cognito_userpool: arn:aws:cognito-idp:ap-southeast-1:906067147605:userpool/ap-southeast-1_AbZOpIWGY
