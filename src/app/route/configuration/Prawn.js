@@ -29,7 +29,7 @@ class LoginControl extends React.Component {
 
     handleLoginClick() {
         
-        if (this.state.confirmation === this.props.ninja.username) {
+        if (this.state.confirmation === this.props.authorization) {
             this.setState({ isLoggedIn: true });
             this.props.handlePassConfirm(this.state.confirmation);
         } else {
@@ -44,6 +44,8 @@ class LoginControl extends React.Component {
 
     handleChange = (event) => {
         this.setState({ [event.target.id] : event.target.value });
+        console.log(this.state.confirmation)
+        console.log(this.props.authorization)
     }
 
     render() {
@@ -56,8 +58,6 @@ class LoginControl extends React.Component {
         } else {
             button = <LoginButton onClick={this.handleLoginClick} />
         }
-        
-        // const { ninja } = this.props;
 
         return (
             <div>
@@ -101,9 +101,7 @@ function LoginButton(props) {
 
 function LogoutButton(props) {
     return (
-        <button onClick={props.onClick}>
-            Logout
-        </button>
+        <div> </div>
     );
 }
 
