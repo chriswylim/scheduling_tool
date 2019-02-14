@@ -229,7 +229,7 @@ const temp = [
 
 const fetchAllScheduleAsync = async () => 
 	await getSchedule()
-		.then(response => {response.data=temp; return(response)}) // To be remove upon release
+		.then(response => {response.data=[response.data.schedule.schedule]; return(response)}) // To be remove upon release 
 		.catch(error => {
 			return Promise.reject(error)
 		})

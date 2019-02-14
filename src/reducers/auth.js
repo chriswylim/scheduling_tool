@@ -8,7 +8,9 @@ import {
 	LOG_IN_USER_SUCCESS,
 	CREATE_USER_SUCCESS,
 	UPDATE_USER_SUCCESS,
-	GET_ALL_USER_SUCCESS
+	GET_ALL_USER_SUCCESS,
+	GET_USER_SUCCESS, 
+	AUTH_REQUEST_SUCCESS,
 } from '../constants/Actions';
 
 const INIT_STATE = {
@@ -16,11 +18,14 @@ const INIT_STATE = {
 	displayname: "Dummy DATA",
 	joindate: "DD/MM/YYYY",
 	mentor: "Dummy DATA",
+	electives: [],
+	schedule: [],
 	accesslevel: "",
 	email: "DummyDATA@astro.com.my",
 	mentoremail: "DummyDATA@astro.com.my",
 	data: "",
-	Token: "invalid",
+	sessionToken: "NULL",
+	idToken: "NULL",
 	listUser: {},
 	isLoggedIn: false
 }
@@ -31,10 +36,6 @@ export default (state=INIT_STATE, action)=>{
 			return {
 				...state,
 				displayname: action.payload
-			}
-		case LOG_IN_USER:
-			return {
-				...state,
 			}
 		case SET_USER_AUTH:
 			return {
@@ -51,13 +52,33 @@ export default (state=INIT_STATE, action)=>{
 		case LOG_IN_USER_SUCCESS:
 			return {
 				...state,
-				isLoggedIn: action.payload
-			}	
+				sessionToken: action.payload.sessionToken,
+				idToken: action.payload.idToken,
+			}
+
+		case AUTH_REQUEST_SUCCESS:
+			return {
+				...state,
+				isLoggedIn: action.payload,
+			}
 
 		case GET_ALL_USER_SUCCESS:
 			return {
 				...state,
 				listUser: action.payload
+			}
+
+		case GET_USER_SUCCESS: 
+			return {
+				...state,
+				displayname: action.payload.displayName,
+				mentoremail: action.payload.mentorEmail,
+				mentor: action.payload.mentorName,
+				joindate: action.payload.joinDate,
+				electives: action.payload.electives,
+				username: action.payload.pK,
+				email: action.payload.pK+"@astro.com.my",
+				accesslevel: action.payload.role
 			}
 
 		default:

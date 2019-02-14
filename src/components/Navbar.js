@@ -72,7 +72,7 @@ class Navbar extends Component {
       this.setState({ anchorEl: null })
     }
     else if (options=='Logout') {
-      this.props.logOutUser()
+      this.props.logOutUser(this.props.username)
       this.setState({ anchorEl: null })
     }
   }
@@ -146,8 +146,8 @@ Navbar.propTypes = {
 
 const mapStateToProps = ({page, auth}) => {
   const {theme, navTitle} = page;
-  const {displayname} = auth;
-  return {displayname, theme, navTitle}
+  const {displayname, username} = auth;
+  return {displayname, theme, navTitle, username}
 };
 
 export default withRouter(connect(mapStateToProps, {getProfileData, getProfileDataSuccess, logOutUser})(withStyles(styles)(Navbar)));

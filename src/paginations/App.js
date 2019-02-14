@@ -22,7 +22,6 @@ class App extends Component {
   }
 
   componentDidMount(){
-    this.props.setDisplayName("Akmaluddin")
   }
 
   toggleSideBar = () => {

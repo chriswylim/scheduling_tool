@@ -18,7 +18,6 @@ import { scheduleVariation } from '../../../themeconfig'
 
 const styles = {
 	root: {	
-	    display: 'flex',
 	    flexWrap: 'wrap',
 	    justifyContent: 'space-around',
 	    overflow: 'hidden',
@@ -44,7 +43,7 @@ class timetableCard extends Component {
 	componentDidMount() {
 		this.props.getAllSchedule();
 		this.props.setNotificationSnackbar({isOpen: true, message:(<span>Please go to Modules and select your
-		elective modules by DD/MM/YY<br/>Note: You will no longer be able to edit your choices after this date</span>)})
+		elective modules by {this.props.joindate} <br/>Note: You will no longer be able to edit your choices after this date</span>)})
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -65,32 +64,35 @@ class timetableCard extends Component {
 	render() {
 
 		const renderinfo = (this.state.protegeNum>=1) ? (
-			<div className={this.state.classes.root}>
+			<div>
 				{(this.state.allSchedule.map((n, index) => {
 					 return(
-					 	Object.entries(n).map(([key, value])=>{
-					 		return(
-						 		<GridList className={this.state.classes.gridList} cols={1.5} key={key}>
-						 			{
-						 				Object.entries(value).map(([ind, value])=>{
-									 			return(
-									 				<Grid item xs key={ind} style={{paddingTop: '10px', width: '170px'}}>
-											 			<Card style={scheduleVariation[value.status]}>
-											 				<CardContent>
-											 					<Typography style={scheduleVariation[value.status].primary} noWrap>{key}</Typography>
-											 					<Typography variant='caption' style={scheduleVariation[value.status]} noWrap>{value.rotationID}</Typography>
-											 					<Typography variant='caption' style={scheduleVariation[value.status]} noWrap>Start: {value.startDate}</Typography>
-											 					<Typography variant='caption' style={scheduleVariation[value.status]} noWrap>End: {value.endDate}</Typography>
-											 					<Typography variant='caption' style={scheduleVariation[value.status]} noWrap>Status: {value.status}</Typography>
-											 				</CardContent>
-										 				</Card>
-										 			</Grid>
-										 		)
-									 	})
-									 }
-						 		</GridList>
-					 		)			 	
-						})
+					 	<div className={this.state.classes.root}>
+					 	{
+					 		Object.entries(n).map(([key, value])=>{
+ 						 		return(
+ 							 		<GridList className={this.state.classes.gridList} cols={1.5} key={key}>
+ 							 			{
+ 							 				Object.entries(value).map(([ind, value])=>{
+ 										 			return(
+ 										 				<Grid item xs key={ind} style={{paddingTop: '10px', maxWidth: '180px'}}>
+ 												 			<Card style={scheduleVariation['ongoing']}>
+ 												 				<CardContent>
+ 												 					<Typography style={scheduleVariation['ongoing'].primary} noWrap>{key}</Typography>
+ 												 					<Typography variant='caption' style={scheduleVariation['ongoing']} noWrap>{value.rotationId}</Typography>
+ 												 					<Typography variant='caption' style={scheduleVariation['ongoing']} noWrap>Start: {value.startDate}</Typography>
+ 												 					<Typography variant='caption' style={scheduleVariation['ongoing']} noWrap>End: {value.endDate}</Typography>
+ 												 					<Typography variant='caption' style={scheduleVariation['ongoing']} noWrap>Status: {value.status}</Typography>
+ 												 				</CardContent>
+ 											 				</Card>
+ 											 			</Grid>
+ 											 		)
+ 										 	})
+ 										 }
+ 							 		</GridList>
+ 						 		)			 	
+ 							})}
+						</div>
 				 	)
 				}))}
 
@@ -125,9 +127,10 @@ class timetableCard extends Component {
 	}
 }
 
-const mapStateToProps = ({schedule}) => {
+const mapStateToProps = ({schedule, auth}) => {
 	const {allSchedule, userSchedule, totalSchedule} = schedule
-    return{allSchedule, userSchedule, totalSchedule}
+	const {joindate} = auth
+    return{allSchedule, userSchedule, totalSchedule, joindate}
 };
 
 export default connect(mapStateToProps, {getAllSchedule, getUserSchedule, setNotificationSnackbar})(withStyles(styles)(timetableCard));

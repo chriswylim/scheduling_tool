@@ -86,7 +86,7 @@ class Sidebar extends Component {
 
 	render() {
 		const allowedLinks = (
-			(this.props.accesslevel==="Admin") ? (
+			(this.props.accesslevel==="admin") ? (
 				<div>
 	    			<ListItem button onClick={this.handleClick("Proteges")}>
 	    				<ListItemIcon>

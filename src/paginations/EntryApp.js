@@ -3,8 +3,15 @@ import {Redirect, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 import App from './App';
 import Login from './Login';
+import { 
+	authToken,
+} from '../actions/index';
 
 class EntryApp extends Component{
+	componentDidUpdate(){
+		this.props.authToken(this.props.sessionToken, this.props.username)
+	}
+
 	render(){
 		const {match, isLoggedIn, location} = this.props
 
@@ -30,8 +37,8 @@ class EntryApp extends Component{
 }
 
 const mapStateToProps = ({auth}) => {
-	const {isLoggedIn} = auth;
-	return {isLoggedIn};
+	const {isLoggedIn, username, sessionToken} = auth;
+	return {isLoggedIn, username, sessionToken};
 };
 
-export default connect(mapStateToProps)(EntryApp);
+export default connect(mapStateToProps, {authToken})(EntryApp);

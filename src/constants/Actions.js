@@ -22,6 +22,10 @@ export const SET_PROFILE_DATA = 'set_profile_data';
 export const SET_PROFILE_DATA_SUCCESS = 'set_profile_data_success';
 export const GET_ALL_USER = 'get_all_user';
 export const GET_ALL_USER_SUCCESS = 'get_all_user_success';
+export const GET_USER = 'get_user';
+export const GET_USER_SUCCESS = 'get_user_success';
+export const AUTH_REQUEST = 'auth_request';
+export const AUTH_REQUEST_SUCCESS = 'auth_request_success';
 export const LOG_OUT_USER = 'log_out_user';
 
 //Schedule Actions

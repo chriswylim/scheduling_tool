@@ -43,9 +43,9 @@ class AdminToggle extends Component {
 
 	handleToggle = (select) => {
 		if (select==="Admin"){
-			this.props.setUserAuth("Admin")
+			this.props.setUserAuth("admin")
 		}else{
-			this.props.setUserAuth("Protege")
+			this.props.setUserAuth("regular")
 		}
 	}
 
@@ -54,11 +54,11 @@ class AdminToggle extends Component {
 			<div>
 				<Button 
 					onClick={()=>{this.handleToggle("Admin")}}
-			        className={(this.state.accesslevel==="Admin") ? this.state.classes.bootstrapSelected : this.state.classes.bootstrapRoot}
+			        className={(this.state.accesslevel==="admin") ? this.state.classes.bootstrapSelected : this.state.classes.bootstrapRoot}
 			    >Admin</Button>
 				<Button 
 					onClick={()=>{this.handleToggle("Protege")}}
-			        className={(this.state.accesslevel==="Protege") ? this.state.classes.bootstrapSelected : this.state.classes.bootstrapRoot}
+			        className={(this.state.accesslevel==="regular") ? this.state.classes.bootstrapSelected : this.state.classes.bootstrapRoot}
 			   	>Protege</Button>
 			   	
 			</div>

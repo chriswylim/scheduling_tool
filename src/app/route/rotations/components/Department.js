@@ -134,7 +134,7 @@ class Department extends Component {
 
 
   save() {
-    if(this.state.accesslevel==="Admin"){
+    if(this.state.accesslevel==="admin"){
       if (this.validate()) {
         console.log("inputs validated, saving this rotation");
   
@@ -230,7 +230,7 @@ class Department extends Component {
   };
 
   deleteRotation = () => {
-    if(this.state.accesslevel==="Admin"){
+    if(this.state.accesslevel==="admin"){
       this.props.removeRotation(this.state.pK);
       console.log('removing rotation with ID:', this.state.pK);
 
@@ -245,19 +245,19 @@ class Department extends Component {
   };
 
   showDeleteDialog = () => {
-    if(this.state.accesslevel==="Admin"){
+    if(this.state.accesslevel==="admin"){
       this.setState({ deleteDialog: true });
     } 
   };
 
   closeDeleteDialog = () => {
-    if(this.state.accesslevel==="Admin"){
+    if(this.state.accesslevel==="admin"){
       this.setState({ deleteDialog: false });
     }
   };
 
   showEditMode = () => {
-    if (this.state.accesslevel==="Admin"){
+    if (this.state.accesslevel==="admin"){
       this.setState({
         ...this.state,
         mode: 2,
@@ -273,7 +273,7 @@ class Department extends Component {
   };
 
   exitEditMode = () => {
-    if(this.state.accesslevel==="Admin"){
+    if(this.state.accesslevel==="admin"){
       this.setState({
         // Clear inputs
         updatedDepartmentName: "",
@@ -357,7 +357,7 @@ class Department extends Component {
       // Display Icons
       <div>
         <div
-          className={this.state.accesslevel==="Admin"? (this.state.mode === 1 || this.state.mode === 2? classes.iconPosition: classes.hide):classes.hide}
+          className={this.state.accesslevel==="admin"? (this.state.mode === 1 || this.state.mode === 2? classes.iconPosition: classes.hide):classes.hide}
         >
           <IconButton
             onClick={this.showEditMode.bind(this)}

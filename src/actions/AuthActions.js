@@ -12,7 +12,11 @@ import {
 	GET_PROFILE_DATA_SUCCESS,
 	GET_ALL_USER,
 	GET_ALL_USER_SUCCESS,
-	LOG_OUT_USER
+	LOG_OUT_USER,
+	GET_USER,
+	GET_USER_SUCCESS,
+	AUTH_REQUEST,
+	AUTH_REQUEST_SUCCESS,
 } from '../constants/Actions';
 
 export const setDisplayName = (name) => {
@@ -96,9 +100,38 @@ export const getAllUserSuccess = (data) => {
 	}
 }
 
-export const logOutUser = () => {
+export const logOutUser = (userid) => {
 	return {
-		type: LOG_OUT_USER
+		type: LOG_OUT_USER,
+		payload: userid
+	}
+}
+
+export const getUser = (userid) => {
+	return {
+		type: GET_USER,
+		payload: userid
+	}
+}
+
+export const getUserSuccess = (data) => {
+	return{
+		type: GET_USER_SUCCESS,
+		payload: data
+	}
+}
+
+export const authToken = (token, userid) => {
+	return{
+		type: AUTH_REQUEST,
+		payload: {token, userid}
+	}
+}
+
+export const authTokenSuccess = (flag) => {
+	return{
+		type: AUTH_REQUEST_SUCCESS,
+		payload: flag
 	}
 }
 

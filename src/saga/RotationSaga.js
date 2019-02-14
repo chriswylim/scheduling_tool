@@ -98,11 +98,6 @@ function* getAllRotationsAsync() {
 	try {
 		const response = yield call( fetchAllRotations )
 		yield put(getAllRotationsSuccess(response.data))
-		yield put(setResponseSnackbar({
-			isOpen: true,
-			message: "Fetched All Rotations",
-			type: "success"
-		}))
 	} catch (error) {
 		yield put(setResponseSnackbar({
 			isOpen: true,

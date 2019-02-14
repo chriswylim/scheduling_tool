@@ -96,7 +96,7 @@ class rotationCard extends Component {
         {this.state.rotations.map((r, index) => {
             return (
               <Grid item xs={12} md={6} lg={4} key={index}>
-                <Card className={this.state.accesslevel==="Admin"? classes.card : classes.smallCard}>
+                <Card className={this.state.accesslevel==="admin"? classes.card : classes.smallCard}>
                   <Department data={r.data} category={r.category} sK={r.sK} pK={r.pK} name={r.name} duration={r.duration} championName={r.championName} championEmail={r.championEmail} capacity={r.capacity} mode={1} />
                 </Card>
               </Grid>
@@ -105,7 +105,7 @@ class rotationCard extends Component {
 
           {/* Add rotation */}
           <Grid item xs={12} md={6} lg={4}>
-            <Card className={this.state.accesslevel==="Admin"? classes.card:classes.hide}>
+            <Card className={this.state.accesslevel==="admin"? classes.card:classes.hide}>
               <Department mode={3} />
             </Card>
           </Grid>
@@ -120,7 +120,7 @@ class rotationCard extends Component {
     {/* Add rotation */}
     <Grid container spacing={24}>
       <Grid item xs={12} md={6} lg={4}>
-        <Card className={this.state.accesslevel==="Admin"? classes.card: classes.hide}>
+        <Card className={this.state.accesslevel==="admin"? classes.card: classes.hide}>
           <Department mode={3} />
         </Card>
       </Grid>
