@@ -2,10 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import Fish from './Fish'
-import Crab from './Crab'
-
-import Card from '@material-ui/core/Card'
+import ProtegeCard from './protegecard'
 
 
 class UserMan extends React.Component {
@@ -36,44 +33,20 @@ class UserMan extends React.Component {
 
   }
 
-	handleDelete = (samurai) => {
-        
-    // set up mock
-    var newNinja = Object.assign({}, samurai);
-
-    // console.log('before newNinja is ', newNinja)
-    this.props.passhandleDelete(newNinja);
-
-  }
-
-  passhandleDelete = (protege) => {
-    this.props.DeleteAProtege(protege);
-  }
-
-  passhandleSubmit = (protege) => {
+  handleSubmit = (protege) => {
+    console.log("HANDLESUBMIT WORKS!!!");
     this.props.EditAProtege(protege);
   }
 
-  passhandlePermaDelete = (protege) => {
-    this.props.PermaDeleteAProtege(protege);
+	handleDelete = (protege) => {
+    // set up mock
+    var newNinja = Object.assign({}, protege);
+    // console.log('before newNinja is ', newNinja)
+    this.props.DeleteAProtege(protege);
   }
 
-  handleSubmit = (samurai) => {
-
-    // var newNinja = Object.assign({}, samurai);
-    // // console.log("new mock ninja is ", newNinja)
-
-    // var newUpdate = Object.assign({}, samurai);
-    // console.log("prior update is ", newUpdate)
-
-    // console.log ('In handleSubmit, newNinja is ', newNinja);
-    // console.log ('In handleSubmit, newUpdate is ', newUpdate);
-    
-    // this.props.passhandleSubmit(newUpdate);
-    // this.props.DeleteAProtege(newUpdate);
-    console.log("HANDLESUBMIT WORKS!!!");
-    // this.togglePencil();
-
+  handlePermaDelete = (protege) => {
+    this.props.PermaDeleteAProtege(protege);
   }
 
 
@@ -82,7 +55,7 @@ class UserMan extends React.Component {
     console.log("SHRIMP SAYS HI!")
     const { ninjas } = this.props;
     
-    ninjas.sort(function (a, b) { return b.joinDate - a.joinDate });
+    ninjas.sort(function(a, b) { return b.joinDate - a.joinDate });
     console.log("Sorted ninjas are ", ninjas)
 
     // Sort out proteges list: load active Proteges first, then suspended Proteges
@@ -92,13 +65,13 @@ class UserMan extends React.Component {
 
     const activeProtegesList = activeProteges.map(ninja => {
       return (
-        <Fish ninja={ninja} onChange={this.handleChange} onSubmit={this.handleSubmit} />
+        <ProtegeCard ninja={ninja} onChange={this.handleChange} onSubmit={this.handleSubmit} />
       )
     });
 
     const suspendedProtegesList = suspendedProteges.map(samurai => {
       return (
-        <Fish ninja={samurai} onChange={this.handleChange} onSubmit={this.handleSubmit} />
+        <ProtegeCard ninja={samurai} onChange={this.handleChange} onSubmit={this.handleSubmit} />
       )
     })
 

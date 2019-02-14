@@ -10,8 +10,8 @@ import {
 } from '../../../actions/index';
 
 // Bring in imports
-import AddMe from './AddMe';
-import Shrimp from './Shrimp';
+import AddProtegeCard from './addprotegecard';
+import UserManagement from './usermanagement';
 
 
 class configurationCard extends Component {
@@ -26,7 +26,6 @@ class configurationCard extends Component {
 
 	componentDidMount() {
 		this.props.getAllUser();
-		
 		// Returned data - this.props.listUser
 		// this.setState({ listUser: this.props.listUser })
 	}
@@ -46,6 +45,7 @@ class configurationCard extends Component {
 
 	AddAProtege = (ninja) => {
 		this.props.createUser(ninja);
+		alert("Please refresh page...")
 	}
 
 	EditAProtege = (ninja) => {
@@ -76,40 +76,34 @@ class configurationCard extends Component {
 
 	DeleteAProtege = (ninja) => {
 		
-		// const oldNinja = this.state.ninjas.find( fruit => fruit.username === ninja.username );
-		// console.log("In configuration, old nin is ", oldNinja)
+		// ****************************** Non-API Functionality Test ****************************** //
+		// if (ninja.status === "active") {
+		// 	ninja.status = "inactive"
+		// 	console.log('ninja ', ninja.id, ' is dirty')
+		// } else if (ninja.status === "inactive") {
+		// 	ninja.status = "active"
+		// 	console.log('ninja ', ninja.id, ' is clean')
+        // }
+		// let oldninjaList = [...this.state.ninjas, ninja];
+		// // console.log("In configuration.DeleteAProtege, oldninjalist is ", oldninjaList)
 
-		if (ninja.status === "active") {
-			ninja.status = "inactive"
-			console.log('ninja ', ninja.id, ' is dirty')
-		} else if (ninja.status === "inactive") {
-			ninja.status = "active"
-			console.log('ninja ', ninja.id, ' is clean')
-        }
+		// // -1 for the stupid count starting from 0
+		// var count = (ninja.id) - 1;
+
+		// // remainder ninja list
+		// // const ninjaList = this.state.ninjas;
+		// // console.log("remainder nin is ", ninjaList);
 		
-		// console.log("In configuration, ninja is ", ninja)
+		// // perform splice cut
+		// const cList = oldninjaList.splice(count, 1);
+		// // console.log("In configuration.DeleteAProtege, cList (spliced entity) is ", cList)
+		// // console.log("In configuration.DeleteAProtege, after splice newninjalist is ", oldninjaList)
 
-		let oldninjaList = [...this.state.ninjas, ninja];
-		// console.log("In configuration.DeleteAProtege, oldninjalist is ", oldninjaList)
-
-		// -1 for the stupid count starting from 0
-		var count = (ninja.id) - 1;
-
-		// remainder ninja list
-		// const ninjaList = this.state.ninjas;
-		// console.log("remainder nin is ", ninjaList);
+		// const ninjas = oldninjaList.sort(function(a,b){return a.id - b.id});
+		// // console.log("new list is ", ninjas)
+		// ****************************** Non-API Functionality Test ****************************** //
 		
-		// perform splice cut
-		const cList = oldninjaList.splice(count, 1);
-		// console.log("In configuration.DeleteAProtege, cList (spliced entity) is ", cList)
-		// console.log("In configuration.DeleteAProtege, after splice newninjalist is ", oldninjaList)
-
-		const ninjas = oldninjaList.sort(function(a,b){return a.id - b.id});
-		// console.log("new list is ", ninjas)
-
-        this.setState({
-			ninjas:ninjas
-		})
+		
 
 	}
 
@@ -141,11 +135,12 @@ class configurationCard extends Component {
 
 			<div className="App">
 				
-				{this.state.listUser.length > 0 
-					? ( <div> <Shrimp ninjas={this.state.listUser} EditAProtege={this.EditAProtege} DeleteAProtege={this.DeleteAProtege} PermaDeleteAProtege={this.PermaDeleteAProtege} /> </div> ) 
-					: ( <div align='Center'> <b> Loading ... </b> </div> )}
-				
-				<div> <AddMe AddAProtege={this.AddAProtege} /> </div>
+				{ this.state.listUser.length > 0 
+					? ( <div> <UserManagement ninjas={this.state.listUser} EditAProtege={this.EditAProtege} DeleteAProtege={this.DeleteAProtege} PermaDeleteAProtege={this.PermaDeleteAProtege} /> </div> ) 
+					: ( <div align='Center'> <b> Loading ... </b> </div> )
+				}
+
+				<div> <AddProtegeCard AddAProtege={this.AddAProtege} /> </div>
 			
 			</div>
 
