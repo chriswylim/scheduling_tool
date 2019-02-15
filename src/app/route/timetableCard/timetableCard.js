@@ -47,7 +47,7 @@ class timetableCard extends Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if (this.props.allSchedule && prevState.allSchedule != this.props.allSchedule && this.props.allSchedule.length > 0)
+		if (this.props.allSchedule && prevState.allSchedule !== this.props.allSchedule && this.props.allSchedule.length > 0)
 		{
 			this.setState({
 				...this.state,

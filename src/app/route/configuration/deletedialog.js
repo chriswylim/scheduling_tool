@@ -4,10 +4,15 @@ import Input from '@material-ui/core/Input';
 
 const styles = theme => ({
     
+    button: {
+        margin: theme.spacing.unit,
+    },  
+    
     container: {
       display: 'flex',
       flexWrap: 'wrap',
     },
+    
     input: {
       margin: theme.spacing.unit,
     },
@@ -31,7 +36,7 @@ class LoginControl extends React.Component {
         
         if (this.state.confirmation === this.props.authorization) {
             this.setState({ isLoggedIn: true });
-            this.props.handlePassConfirm(this.state.confirmation);
+            this.props.handlePassConfirm( this.state.confirmation );
         } else {
             alert('Incorrect Username, Please Try Again.')
         }
@@ -44,8 +49,8 @@ class LoginControl extends React.Component {
 
     handleChange = (event) => {
         this.setState({ [event.target.id] : event.target.value });
-        console.log(this.state.confirmation)
-        console.log(this.props.authorization)
+        // console.log(this.state.confirmation)
+        // console.log(this.props.authorization)
     }
 
     render() {
@@ -94,7 +99,7 @@ function Greeting(props) {
 function LoginButton(props) {
     return (
         <button onClick={props.onClick}>
-            Login
+            Sync
         </button>
     );
 }

@@ -2,21 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import TextField from '@material-ui/core/TextField'
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
-import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper';
-import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 
@@ -83,7 +79,6 @@ function ShowAddBar(props) {
     var datepicker = myFunction(time1,time2,time3)
     
     return (
-        
         <Card className={classes.card}>
             <CardHeader
                 avatar = {
@@ -142,24 +137,10 @@ function ShowAddBar(props) {
                                     }}
                                     margin="normal"
                                 />
-                            </div>
-
-                            <div>
-                                <TextField onChange={props.handleChange('joinDate')}
-                                    id="joinDate"
-                                    label="Join Date"
-                                    type="date"
-                                    defaultValue={datepicker}
-                                    className={classes.textField}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    margin="normal"
-                                />
-                            </div>                                            
+                            </div>                                          
                         </div>
                     </Grid>
-                    
+
                     <Grid item xs>
                         <div> 
                             <div>
@@ -190,7 +171,28 @@ function ShowAddBar(props) {
                         </div>
                     </Grid>
                     
-                    <Grid item xs> </Grid>
+                    <Grid item xs>
+                        <div>
+                            <div>
+                                <TextField onChange={props.handleChange('joinDate')}
+                                    id="joinDate"
+                                    label="Join Date"
+                                    type="date"
+                                    defaultValue={datepicker}
+                                    className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    margin="normal"
+                                />
+                            </div>  
+
+                            <div>
+                                <Typography variant='body1'> For changes of electives: </Typography>
+                                <Typography variant='body2' paragraph> Kindly visit your 'Schedule' tab from the sidebar! </Typography>
+                            </div>                                            
+                        </div>
+                    </Grid>
 
                     <Grid item className={classes.indentation}> </Grid>
                 

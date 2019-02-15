@@ -33,7 +33,7 @@ class Popup extends Component {
 	{
 		
 
-		if(this.props.PopupcloseButtonText!=undefined && this.state.PopupcloseButtonText!=this.props.PopupcloseButtonText){
+		if(this.props.PopupcloseButtonText!==undefined && this.state.PopupcloseButtonText!==this.props.PopupcloseButtonText){
 			this.setState({
 				...this.state,
 				PopupcloseButtonText: this.props.PopupcloseButtonText

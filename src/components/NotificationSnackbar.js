@@ -22,7 +22,7 @@ class NotificationSnackbar extends Component {
 	}
 
 	componentDidUpdate(prevProps, prevState){
-		if(prevProps.notificationSnackbar!=this.props.notificationSnackbar)
+		if(prevProps.notificationSnackbar!==this.props.notificationSnackbar)
 		{
 			this.setState({
 				...this.state,

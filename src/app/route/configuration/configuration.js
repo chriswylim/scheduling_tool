@@ -31,58 +31,82 @@ class configurationCard extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		if (prevProps.listUser != this.props.listUser)
+		if (prevProps.listUser !== this.props.listUser)
 		{
 			this.setState({
 				...this.state,
 				listUser: this.props.listUser.rotations,
 				listUserlength: this.props.listUser.rotations.length,
-				// protegeNum: this.props.listUser.length
 			})
 		}
 	}
 
 
 	AddAProtege = (ninja) => {
+		console.log("NEW NINJA FORMAT IS ", ninja);
 		this.props.createUser(ninja);
-		alert("Please refresh page...")
 	}
 
 	EditAProtege = (ninja) => {
 
-		const oldNinja = this.state.ninjas.find( fruit => fruit.username === ninja.username );
+		console.log("EDIT A PROTEGE IS PINGED!!!")
+		const selectedNinja = this.state.listUser.find( fruit => fruit.pK === ninja.pK );
+		// console.log("selected protege is ", selectedNinja)
+		// console.log("passed protege is ", ninja)
+
+		if ( Object.is(selectedNinja.pK, ninja.pK) ) {
+			this.props.updateUser(ninja.pK, ninja);
+		} else {
+			alert("ERROR: The data loaded now is not the latest data.")
+		}
+
+		// ****************************** Non-API Functionality Test ****************************** //
+		// const oldNinja = this.state.listUser.find( fruit => fruit.pK === ninja.pK );
 		// console.log("old nin is ", oldNinja)
 
-		// -1 for the stupid count starting from 0
-		var count = (ninja.id) - 1;
+		// // -1 for count starting from 0
+		// var count = (ninja.id) - 1;
 
-		// remainder ninja list
-		const ninjaList = this.state.ninjas;
-		// console.log("remainder nin is ", ninjaList);	
+		// // remainder ninja list
+		// const ninjaList = this.state.ninjas;
+		// // console.log("remainder nin is ", ninjaList);	
 		
-		// perform splice cut
-		const cList = ninjaList.splice(count, 1);
-		// console.log("CList is ", cList)
+		// // perform splice cut
+		// const cList = ninjaList.splice(count, 1);
+		// // console.log("CList is ", cList)
 
-		let oldninjaList = [...this.state.ninjas, ninja];
-		// console.log("old list is ", oldninjaList)
+		// let oldninjaList = [...this.state.ninjas, ninja];
+		// // console.log("old list is ", oldninjaList)
 		
-		const ninjas = oldninjaList.sort(function(a,b){return a.id - b.id});
-		// console.log("new list is ", ninjas)
+		// const ninjas = oldninjaList.sort(function(a,b){return a.id - b.id});
+		// // console.log("new list is ", ninjas)
 
-		this.setState({ninjas: ninjas})
+		// this.setState({ninjas: ninjas})
+		// ****************************** Non-API Functionality Test ****************************** //
 
 	}
 
-	DeleteAProtege = (ninja) => {
+	SuspendAProtege = (ninja) => {
 		
+		console.log("SUSPEND A PROTEGE IS PINGED!!!");
+		const mockNinja = ninja;
+
+		if (mockNinja.status === "active") {
+			mockNinja.status = "suspended"
+		} else if (mockNinja.status === "suspended") {
+			mockNinja.status = "active"
+		};
+		
+		console.log("data is ", mockNinja);
+		console.log("userid is ", mockNinja.pK);
+		
+		this.props.updateUser(mockNinja.pK, mockNinja);
+
 		// ****************************** Non-API Functionality Test ****************************** //
 		// if (ninja.status === "active") {
 		// 	ninja.status = "inactive"
-		// 	console.log('ninja ', ninja.id, ' is dirty')
 		// } else if (ninja.status === "inactive") {
 		// 	ninja.status = "active"
-		// 	console.log('ninja ', ninja.id, ' is clean')
         // }
 		// let oldninjaList = [...this.state.ninjas, ninja];
 		// // console.log("In configuration.DeleteAProtege, oldninjalist is ", oldninjaList)
@@ -102,41 +126,50 @@ class configurationCard extends Component {
 		// const ninjas = oldninjaList.sort(function(a,b){return a.id - b.id});
 		// // console.log("new list is ", ninjas)
 		// ****************************** Non-API Functionality Test ****************************** //
-		
-		
 
 	}
 
 	PermaDeleteAProtege = (ninja) => {
+
+		console.log("DELETE A PROTEGE IS PINGED!!!");
+		const deletedNinja = ninja;
+
+		if (deletedNinja.status === "suspended") {
+			deletedNinja.status = "deleted"
+		} else {
+			alert("Protege's status is not suspended. Unable to delete.")
+		};
 		
-		const oldNinja = this.state.ninjas.find( fruit => fruit.username === ninja.username );
-		// console.log("Old nin is ", oldNinja)
+		this.props.updateUser(deletedNinja.pK, deletedNinja);
 
-		// -1 for the stupid count starting from 0
-		var count = (ninja.id) - 1;
+		// ****************************** Non-API Functionality Test ****************************** //
+		// const oldNinja = this.state.ninjas.find( fruit => fruit.username === ninja.username );
+		// // console.log("Old nin is ", oldNinja)
 
-		// remainder ninja list
-		const ninjaList = this.state.ninjas;
-		// console.log("Remainder nin is ", ninjaList);
+		// // -1 for the stupid count starting from 0
+		// var count = (ninja.id) - 1;
 
-		// perform splice cut
-		const cList = ninjaList.splice(count, 1);
-		// console.log("Removed protege is ", cList)
+		// // remainder ninja list
+		// const ninjaList = this.state.ninjas;
+		// // console.log("Remainder nin is ", ninjaList);
 
-    	this.setState({ninjas: ninjaList})
-	
+		// // perform splice cut
+		// const cList = ninjaList.splice(count, 1);
+		// // console.log("Removed protege is ", cList)
+
+    	// this.setState({ninjas: ninjaList})
+		// ****************************** Non-API Functionality Test ****************************** //
+
 	}
 
 	render() {
-
-		console.log(this.state.listUser);
 
 		return (
 
 			<div className="App">
 				
 				{ this.state.listUser.length > 0 
-					? ( <div> <UserManagement ninjas={this.state.listUser} EditAProtege={this.EditAProtege} DeleteAProtege={this.DeleteAProtege} PermaDeleteAProtege={this.PermaDeleteAProtege} /> </div> ) 
+					? ( <div> <UserManagement ninjas={this.state.listUser} EditAProtege={this.EditAProtege} SuspendAProtege={this.SuspendAProtege} PermaDeleteAProtege={this.PermaDeleteAProtege} /> </div> ) 
 					: ( <div align='Center'> <b> Loading ... </b> </div> )
 				}
 
@@ -155,4 +188,4 @@ const mapStateToProps = ({ auth }) => {
     return { listUser }
 };
 
-export default connect(mapStateToProps, {getAllUser, createUser})(configurationCard);
+export default connect(mapStateToProps, {getAllUser, createUser, updateUser})(configurationCard);

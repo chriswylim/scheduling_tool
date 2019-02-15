@@ -94,28 +94,28 @@ class apiCard extends Component {
 	}
 
 	componentDidUpdate(prevProps, prevState){
-		if (prevProps.allSchedule != this.props.allSchedule)
+		if (prevProps.allSchedule !== this.props.allSchedule)
 		{
 			this.setState({
 				...this.state,
 				response: JSON.stringify(this.props.allSchedule)
 			})
-		} else if (prevProps.userSchedule != this.props.userSchedule) {
+		} else if (prevProps.userSchedule !== this.props.userSchedule) {
 			this.setState({
 				...this.state,
 				response: JSON.stringify(this.props.userSchedule)
 			})
-		} else if (prevProps.isLoggedIn != this.props.isLoggedIn) {
+		} else if (prevProps.isLoggedIn !== this.props.isLoggedIn) {
 			this.setState({
 				...this.state,
 				response: JSON.stringify(this.props.isLoggedIn)
 			})
-		} else if (prevProps.listUser != this.props.listUser) {
+		} else if (prevProps.listUser !== this.props.listUser) {
 			this.setState({
 				...this.state,
 				response: JSON.stringify(this.props.listUser)
 			})
-		} else if (prevProps.rotations != this.props.rotations) {
+		} else if (prevProps.rotations !== this.props.rotations) {
 			this.setState({
 				...this.state,
 				response: JSON.stringify(this.props.rotations)

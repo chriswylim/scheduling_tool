@@ -63,15 +63,15 @@ class Navbar extends Component {
   };
 
   handleNavigate = (options) =>()=> {
-    if (options=='Profile') {
+    if (options==='Profile') {
       this.props.history.push('/profile')
       this.setState({ anchorEl: null })
     }
-    else if (options=='Change Password') {
+    else if (options==='Change Password') {
       this.props.history.push('/changepassword')
       this.setState({ anchorEl: null })
     }
-    else if (options=='Logout') {
+    else if (options==='Logout') {
       this.props.logOutUser(this.props.username)
       this.setState({ anchorEl: null })
     }
@@ -84,13 +84,13 @@ class Navbar extends Component {
 
   render(){
 
-    const title = (this.props.location.pathname == '/elective') ? (<span>Modules</span>) : 
-    (this.props.location.pathname == '/schedule') ? (<span>Schedules</span>) : 
-    (this.props.location.pathname == '/welcome') ? (<span>Home</span>) :
-    (this.props.location.pathname == '/profile') ? (<span>Profile</span>) :
-    (this.props.location.pathname == '/configuration') ? (<span>User Management</span>) :
-    (this.props.location.pathname == '/protege') ? (<span>Proteges</span>) : 
-    (this.props.location.pathname == '/rotation') ? (<span>Rotations</span>) :
+    const title = (this.props.location.pathname === '/elective') ? (<span>Modules</span>) : 
+    (this.props.location.pathname === '/schedule') ? (<span>Schedules</span>) : 
+    (this.props.location.pathname === '/welcome') ? (<span>Home</span>) :
+    (this.props.location.pathname === '/profile') ? (<span>Profile</span>) :
+    (this.props.location.pathname === '/configuration') ? (<span>User Management</span>) :
+    (this.props.location.pathname === '/protege') ? (<span>Proteges</span>) : 
+    (this.props.location.pathname === '/rotation') ? (<span>Rotations</span>) :
     (<span/>)
 
     return (

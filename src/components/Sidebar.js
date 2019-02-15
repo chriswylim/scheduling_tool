@@ -55,28 +55,28 @@ class Sidebar extends Component {
 	} 
 
 	handleClick = (Title) =>() => {
-	 	if (Title=='Schedules') {
+	 	if (Title==='Schedules') {
 			this.props.history.push('/schedule')
 		}
-		else if (Title=='Profile') {
+		else if (Title==='Profile') {
 			this.props.history.push('/profile')
 		}
-		else if (Title=='Proteges') {
+		else if (Title==='Proteges') {
 			this.props.history.push('/protege')
 		}
-		else if (Title=='UsrMgmt') {
+		else if (Title==='UsrMgmt') {
 			this.props.history.push('/configuration')
 		}
-		else if (Title=='Rotations') {
+		else if (Title==='Rotations') {
 			this.props.history.push('/rotation')
 		}
-		else if (Title=='Modules') {
+		else if (Title==='Modules') {
 			this.props.history.push('/elective')
 		}
-		else if (Title=='API') {
+		else if (Title==='API') {
 			this.props.history.push('/api')
 		}
-		else if (Title=='Change Password'){
+		else if (Title==='Change Password'){
 			this.props.history.push('/changepassword')
 		}
 		else {

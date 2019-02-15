@@ -2,18 +2,14 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
-import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
+// import CardActions from '@material-ui/core/CardActions';
+// import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 
 import Typography from '@material-ui/core/Typography';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField'
@@ -123,26 +119,37 @@ class activeProtege extends Component{
             ninja: this.props.ninja,
         }
         
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+
     }
 
     togglePencil = () => {
-        this.setState({ isPencil: !this.state.isPencil }) 
+        this.setState({ isPencil: !this.state.isPencil }); 
     }
 
+    handleChange = (payload, propertyName) => (event) => {
 
-    openReviveDialog = () => {
-        this.setState({ reviveDialog: true });
-    };
+        const contact = this.state.ninja;
+        // let contact = JSON.parse(JSON.stringify(payload));
     
-    submitReviveDialog = (samurai) => {
-        this.handleRevive(samurai);
-        this.closeReviveDialog();
+        const newContact = {
+          ...contact,
+          [propertyName]: event.target.value
+        };
+        
+        this.setState({ ninja: newContact });
+        
+        event.preventDefault();
+    
     }
 
-    closeReviveDialog = () => {
-        this.setState({ reviveDialog: false });
-    };    
+    handleSubmit = () => {
 
+        this.props.onSubmit(this.state.ninja);
+        this.setState({ isPencil: !this.state.isPencil });
+    
+    }
 
     handlePassConfirm = (authorization) => {
         
@@ -153,13 +160,27 @@ class activeProtege extends Component{
 
     }
 
+    
+    openReviveDialog = () => {
+        this.setState({ reviveDialog: true });
+    };
+    
+    submitReviveDialog = (samurai) => {
+        this.props.onRevive(samurai);
+        this.closeReviveDialog();
+    }
+
+    closeReviveDialog = () => {
+        this.setState({ reviveDialog: false });
+    };    
+
 
     openSuspendDialog = () => {
         this.setState({ suspendDialog: true });
     };
   
     submitSuspendDialog = (samurai) => {
-        this.handleDelete(samurai);
+        this.props.onSuspend(samurai);
         this.closeSuspendDialog();
     }
   
@@ -173,7 +194,7 @@ class activeProtege extends Component{
     };
     
     submitPermaDeleteDialog = (samurai) => {
-        this.handlePermaDelete(samurai);
+        this.props.onDelete(samurai);
         this.closePermaDeleteDialog();
     }
 
@@ -196,13 +217,12 @@ class activeProtege extends Component{
         // "2021-02-14"
         const eD = (numeD+2)+"-"+jD[5]+jD[6]+"-"+jD[8]+jD[9];
 
-        console.log("PROPS.HANDLECHANGE IS ", this.props.handleChange);
-
+        // console.log("PROPS.HANDLECHANGE IS ", this.props.handleChange);
         const returninfo = ninja.status;
 
         return (
 
-            ( returninfo === "active" ) ? (
+            ( returninfo === "active" || returninfo === "onboarding"  ) ? (
                 <div>
     
                     {/* Edit OFF */}
@@ -295,10 +315,9 @@ class activeProtege extends Component{
     
                                         <div> 
                                             <IconButton> 
-                                                <SaveIcon className={classes.button} onClick={this.props.onSubmit(ninja)} /> 
+                                                <SaveIcon className={classes.button} onClick={this.handleSubmit.bind(this, ninja)} /> 
                                             </IconButton>
-    
-                                            {/* onClick={() => this.onClick(ninja)} --> works too */}
+
                                             <IconButton >  
                                                 <CancelIcon className={classes.button} onClick={this.togglePencil.bind(this, ninja)} /> 
                                             </IconButton>
@@ -320,10 +339,11 @@ class activeProtege extends Component{
                                         <Grid item xs>
                                             <div> 
                                                 <div>
-                                                    <TextField onChange={this.props.onChange('displayName')}
+                                                    <TextField onChange={this.handleChange(ninja, 'displayName')}
                                                         id="displayName"
                                                         label="Display Name"
                                                         placeholder="(e.g. : Andrew John, LEE)"
+                                                        defaultValue={ninja.displayName}
                                                         className={classes.textField}
                                                         InputLabelProps={{
                                                             shrink: true,
@@ -333,7 +353,7 @@ class activeProtege extends Component{
                                                 </div>
     
                                                 <div>
-                                                    <TextField onChange={this.props.onChange('pK')}
+                                                    <TextField onChange={this.handleChange(ninja, 'pK')}
                                                         id="pK"
                                                         label="Username"
                                                         placeholder="(e.g. : ABCDEFGH)"
@@ -351,11 +371,11 @@ class activeProtege extends Component{
                                         <Grid item xs>
                                             <div> 
                                                 <div>
-                                                    <TextField onChange={this.props.onChange('mentor')}
-                                                        id="mentor"
+                                                    <TextField onChange={this.handleChange(ninja, 'mentorName')}
+                                                        id="mentorName"
                                                         label="Mentor's Name"
                                                         placeholder="(e.g. : Andrew John, LEE)"
-                                                        defaultValue={ninja.mentor}
+                                                        defaultValue={ninja.mentorName}
                                                         className={classes.textField}
                                                         InputLabelProps={{
                                                             shrink: true,
@@ -365,11 +385,11 @@ class activeProtege extends Component{
                                                 </div>
     
                                                 <div>
-                                                    <TextField onChange={this.props.onChange('memail')}
-                                                        id="memail"
+                                                    <TextField onChange={this.handleChange(ninja, 'mentorEmail')}
+                                                        id="mentorEmail"
                                                         label="Mentor's Email"
                                                         placeholder="(e.g. : andrew_lee@astro.com.my)"
-                                                        defaultValue={ninja.memail}
+                                                        defaultValue={ninja.mentorEmail}
                                                         className={classes.textField}
                                                         InputLabelProps={{
                                                             shrink: true,
@@ -381,10 +401,26 @@ class activeProtege extends Component{
                                         </Grid>
                                         
                                         <Grid item xs> 
-    
-                                            <Typography variant='body1'> For changes of electives: </Typography>
-                                            <Typography variant='body2' paragraph> Kindly visit your 'Schedule' tab from the sidebar! </Typography>
-    
+                                            <div>
+                                                <div>
+                                                    <Typography variant='body1'> For changes of electives: </Typography>
+                                                    <Typography variant='body2' paragraph> Kindly visit your 'Schedule' tab from the sidebar! </Typography>
+                                                </div>   
+
+                                                <div>
+                                                    <TextField onChange={this.handleChange(ninja, 'joinDate')}
+                                                        id="joinDate"
+                                                        label="Join Date"
+                                                        type="date"
+                                                        defaultValue={ninja.joinDate}
+                                                        className={classes.textField}
+                                                        InputLabelProps={{
+                                                            shrink: true,
+                                                        }}
+                                                        margin="normal"
+                                                    />
+                                                </div>  
+                                            </div>
                                         </Grid>
     
                                         <Grid item className={classes.indentation}> </Grid>
@@ -553,10 +589,10 @@ class activeProtege extends Component{
                             {/* Confirm OFF */}
                             { !this.state.userConfirm && 
                                 <div>
-                                    <Button color="secondary" disabled >
+                                    <Button className={classes.button} color="secondary" disabled >
                                         Confirm
                                     </Button>
-                                    <Button onClick={this.closePermaDeleteDialog} color="primary" autoFocus>
+                                    <Button className={classes.button} onClick={this.closePermaDeleteDialog} color="primary" autoFocus>
                                         Cancel
                                     </Button>
                                 </div>
@@ -565,10 +601,10 @@ class activeProtege extends Component{
                             {/* Confirm ON */}
                             { this.state.userConfirm && 
                                 <div> 
-                                    <Button onClick={this.submitPermaDeleteDialog.bind(this, ninja)} color="primary" autoFocus>
+                                    <Button className={classes.button} onClick={this.submitPermaDeleteDialog.bind(this, ninja)} color="primary" autoFocus>
                                         Confirm
                                     </Button>
-                                    <Button onClick={this.closePermaDeleteDialog} color="primary">
+                                    <Button className={classes.button} onClick={this.closePermaDeleteDialog} color="primary">
                                         Cancel
                                     </Button>
                                 </div>
