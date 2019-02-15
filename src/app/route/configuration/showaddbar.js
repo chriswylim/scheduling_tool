@@ -174,6 +174,11 @@ function ShowAddBar(props) {
                     <Grid item xs>
                         <div>
                             <div>
+                                <Typography variant='body1'> For changes of electives: </Typography>
+                                <Typography variant='body2' paragraph> Kindly visit your 'Schedule' tab from the sidebar! </Typography>
+                            </div>   
+
+                            <div>
                                 <TextField onChange={props.handleChange('joinDate')}
                                     id="joinDate"
                                     label="Join Date"
@@ -186,11 +191,6 @@ function ShowAddBar(props) {
                                     margin="normal"
                                 />
                             </div>  
-
-                            <div>
-                                <Typography variant='body1'> For changes of electives: </Typography>
-                                <Typography variant='body2' paragraph> Kindly visit your 'Schedule' tab from the sidebar! </Typography>
-                            </div>                                            
                         </div>
                     </Grid>
 

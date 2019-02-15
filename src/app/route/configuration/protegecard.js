@@ -30,8 +30,8 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
+import Input from '@material-ui/core/Input';
 
-import DeleteAuthorization from './deletedialog'
 
 const styles = theme => ({
 
@@ -111,11 +111,11 @@ class activeProtege extends Component{
         super(props);
         this.state = 
         {
+            activation: '',
             isPencil: false,
-            suspendDialog: false,
             reviveDialog: false,
+            suspendDialog: false,
             permadeleteDialog: false,
-            userConfirm: false,
             ninja: this.props.ninja,
         }
         
@@ -189,13 +189,23 @@ class activeProtege extends Component{
     };
 
 
+    handleChangePermaDelete = (event) => {
+        const confirmation = event.target.value;
+        this.setState({ activation: confirmation })
+    }
+
+
     openPermaDeleteDialog = () => {
         this.setState({ permadeleteDialog: true });
     };
     
     submitPermaDeleteDialog = (samurai) => {
-        this.props.onDelete(samurai);
-        this.closePermaDeleteDialog();
+        if ( this.state.activation === samurai.pK ) {
+            this.props.onDelete(samurai);
+            this.closePermaDeleteDialog();
+        } else {
+            alert("Username doesn't match. Please try again.")
+        }
     }
 
     closePermaDeleteDialog = () => {
@@ -284,6 +294,7 @@ class activeProtege extends Component{
                                         <Grid item xs>
                                             <div>
                                                 <Typography variant='body2'> Electives: </Typography>
+                                                {/* { ninja.electives.forEach( function(element) { <div> <Typography variant='body1'> { element } </Typography> </div> } ) } */}
                                                 <Typography variant='body1'> • { ninja.electives[0] } </Typography>
                                                 <Typography variant='body1'> • { ninja.electives[1] } </Typography>
                                                 <Typography variant='body1'> • { ninja.electives[2] } </Typography>
@@ -563,7 +574,6 @@ class activeProtege extends Component{
                     
                     </Dialog>
 
-
                     <Dialog
                     open={this.state.permadeleteDialog}
                     onClose={this.closePermaDeleteDialog}
@@ -577,41 +587,28 @@ class activeProtege extends Component{
                         
                         <DialogContent>
                             <DialogContentText>
-                                Are you sure you want to delete <b> {ninja.displayName} </b>?
-                                <br /> <DeleteAuthorization authorization={ninja.pK} handlePassConfirm={this.handlePassConfirm} />
+                                <div>
+                                    Are you sure you want to delete <b> {ninja.displayName} </b>? <br />
+                                    <b> Please insert protege's username to proceed. </b> <br />
+                                    <Input onChange={this.handleChangePermaDelete}
+                                    id="confirmation"
+                                    placeholder="Protege Username"
+                                    margin="normal"
+                                    />
+                                </div>
+                                {/* <br /> <DeleteAuthorization authorization={ninja.pK} handlePassConfirm={this.submitPermaDeleteDialog} /> */}
                             </DialogContentText>
                         </DialogContent>
                         
                         <DialogActions>
-
                             <div>
-
-                            {/* Confirm OFF */}
-                            { !this.state.userConfirm && 
-                                <div>
-                                    <Button className={classes.button} color="secondary" disabled >
-                                        Confirm
-                                    </Button>
-                                    <Button className={classes.button} onClick={this.closePermaDeleteDialog} color="primary" autoFocus>
-                                        Cancel
-                                    </Button>
-                                </div>
-                            }
-
-                            {/* Confirm ON */}
-                            { this.state.userConfirm && 
-                                <div> 
-                                    <Button className={classes.button} onClick={this.submitPermaDeleteDialog.bind(this, ninja)} color="primary" autoFocus>
-                                        Confirm
-                                    </Button>
-                                    <Button className={classes.button} onClick={this.closePermaDeleteDialog} color="primary">
-                                        Cancel
-                                    </Button>
-                                </div>
-                            }
-
+                                <Button className={classes.button} onClick={this.submitPermaDeleteDialog.bind(this, ninja)} color="primary" autoFocus>
+                                    Confirm
+                                </Button>
+                                <Button className={classes.button} onClick={this.closePermaDeleteDialog} color="primary">
+                                    Cancel
+                                </Button>
                             </div>
-                        
                         </DialogActions>
                     
                     </Dialog>
