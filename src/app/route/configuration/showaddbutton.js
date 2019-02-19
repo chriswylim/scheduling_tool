@@ -18,28 +18,15 @@ import AddIcon from '@material-ui/icons/Add';
 // import SaveIcon from '@material-ui/icons/Save';
 // import CancelIcon from '@material-ui/icons/Cancel';
 
-const styles = theme => ({
-    root: {
-      flexGrow: 1,
-    },
-});
-
-function ShowAddButton (props) {
-    const { classes } = props;
+function ShowAddButton(props) {
     
     return (
-        <div className={classes.root}>
-            <Card>
-                <Grid container>
-                    <Grid item xs align='center'> <Button variant="fab" color="disabled" onClick={props.onClick}> <AddIcon /> </ Button> </Grid>
-                </Grid>
-            </Card>
-        </div>
+        <Card>
+            <Grid container>
+                <Grid item xs align='center'> <Button variant="fab" color="disabled" onClick={props.onClick}> <AddIcon /> </ Button> </Grid>
+            </Grid>
+        </Card>
     )
 }
 
-ShowAddButton.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(ShowAddButton);
+export default ShowAddButton;

@@ -12,16 +12,14 @@ import {
 // Bring in imports
 import AddProtegeCard from './addprotegecard';
 import UserManagement from './usermanagement';
+import Card from '@material-ui/core/Card';
 
 
 class configurationCard extends Component {
 
 	constructor(props) {
 		super(props); 
-		this.state = 
-		{ 
-			listUser: {},
-		}
+		this.state = { listUser: {} }
 	}
 
 	componentDidMount() {
@@ -45,6 +43,7 @@ class configurationCard extends Component {
 	AddAProtege = (ninja) => {
 		console.log("NEW NINJA FORMAT IS ", ninja);
 		this.props.createUser(ninja);
+		this.props.getAllUser();
 	}
 
 	EditAProtege = (ninja) => {
@@ -170,7 +169,7 @@ class configurationCard extends Component {
 				
 				{ this.state.listUser.length > 0 
 					? ( <div> <UserManagement ninjas={this.state.listUser} EditAProtege={this.EditAProtege} SuspendAProtege={this.SuspendAProtege} PermaDeleteAProtege={this.PermaDeleteAProtege} /> </div> ) 
-					: ( <div align='Center'> <b> Loading ... </b> </div> )
+					: ( <div align='Center'> <Card> <b> Loading ... </b> </Card> <br/> </div> )
 				}
 
 				<div> <AddProtegeCard AddAProtege={this.AddAProtege} /> </div>

@@ -111,7 +111,7 @@ function* updateUserAsync({payload}) {
 	const {userid, data} = payload
 	try{
 		const response = yield call(sendUpdateUser, userid, data)
-		yield put(getUserAction(userid))
+		// yield put(getUserAction(userid))
 		yield put(setResponseSnackbar({
 			isOpen: true,
 			message: "Updated User",

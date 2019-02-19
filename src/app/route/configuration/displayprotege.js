@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+// import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-// import CardActions from '@material-ui/core/CardActions';
-// import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-import TextField from '@material-ui/core/TextField'
 
 // import Button, Icon
 import IconButton from '@material-ui/core/IconButton';
@@ -23,17 +21,43 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import ReviveIcon from '@material-ui/icons/BrightnessLow';
 import PermaDeleteIcon from '@material-ui/icons/Delete';
 
-
+// Dialog
 import Button from '@material-ui/core/Button';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Input from '@material-ui/core/Input';
 
+import PencilProtege from './pencilprotege';
+
+
+// Dialog Box Styling
+const DialogTitle = withStyles( theme => ({
+    
+    root: {
+      margin: 0
+    },
+    
+    })) (props => {
+        const { children, classes } = props;
+    
+    return (
+      <MuiDialogTitle disableTypography className={classes.root}>
+        <Typography variant="h6">{children}</Typography>
+      </MuiDialogTitle>
+    );
+
+});
 
 const styles = theme => ({
+
+    actionbutton: {
+        display: 'flex',
+        align: 'center',
+        textAlign: 'center',
+    },
 
     actions: {
         display: 'flex',
@@ -102,9 +126,23 @@ const styles = theme => ({
         width: 200,
     },
 
+    dialog: {
+        textAlign: "center"
+    },
+    
+    dialogButtonWrapper: {
+    marginBottom: 30,
+    margin: "0 auto"
+    },
+    
+    dialogButton: {
+    borderRadius: 8,
+    width: 100
+    }
+
 });
 
-class activeProtege extends Component{
+class activeProtege extends React.PureComponent {
 
     constructor(props) {
 
@@ -128,7 +166,7 @@ class activeProtege extends Component{
         this.setState({ isPencil: !this.state.isPencil }); 
     }
 
-    handleChange = (payload, propertyName) => (event) => {
+    handleChange = (propertyName) => (event) => {
 
         const contact = this.state.ninja;
         // let contact = JSON.parse(JSON.stringify(payload));
@@ -137,9 +175,8 @@ class activeProtege extends Component{
           ...contact,
           [propertyName]: event.target.value
         };
-        
+
         this.setState({ ninja: newContact });
-        
         event.preventDefault();
     
     }
@@ -343,101 +380,16 @@ class activeProtege extends Component{
                                 
                                 <CardContent>
                                     
-                                    <Grid container spacing={16} className={classes.item}>
-                                        
-                                        <Grid item className={classes.indentation}> </Grid>
-    
-                                        <Grid item xs>
-                                            <div> 
-                                                <div>
-                                                    <TextField onChange={this.handleChange(ninja, 'displayName')}
-                                                        id="displayName"
-                                                        label="Display Name"
-                                                        placeholder="(e.g. : Andrew John, LEE)"
-                                                        defaultValue={ninja.displayName}
-                                                        className={classes.textField}
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                        margin="normal"
-                                                    />
-                                                </div>
-    
-                                                <div>
-                                                    <TextField onChange={this.handleChange(ninja, 'pK')}
-                                                        id="pK"
-                                                        label="Username"
-                                                        placeholder="(e.g. : ABCDEFGH)"
-                                                        defaultValue={ninja.pK}
-                                                        className={classes.textField}
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                        margin="normal"
-                                                    />
-                                                </div>                                            
-                                            </div>
-                                        </Grid>
-                                        
-                                        <Grid item xs>
-                                            <div> 
-                                                <div>
-                                                    <TextField onChange={this.handleChange(ninja, 'mentorName')}
-                                                        id="mentorName"
-                                                        label="Mentor's Name"
-                                                        placeholder="(e.g. : Andrew John, LEE)"
-                                                        defaultValue={ninja.mentorName}
-                                                        className={classes.textField}
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                        margin="normal"
-                                                    />
-                                                </div>
-    
-                                                <div>
-                                                    <TextField onChange={this.handleChange(ninja, 'mentorEmail')}
-                                                        id="mentorEmail"
-                                                        label="Mentor's Email"
-                                                        placeholder="(e.g. : andrew_lee@astro.com.my)"
-                                                        defaultValue={ninja.mentorEmail}
-                                                        className={classes.textField}
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                        margin="normal"
-                                                    />
-                                                </div>                                            
-                                            </div>
-                                        </Grid>
-                                        
-                                        <Grid item xs> 
-                                            <div>
-                                                <div>
-                                                    <Typography variant='body1'> For changes of electives: </Typography>
-                                                    <Typography variant='body2' paragraph> Kindly visit your 'Schedule' tab from the sidebar! </Typography>
-                                                </div>   
+                                    <PencilProtege 
+                                      pK={this.state.ninja.pK}
+                                      displayName={this.state.ninja.displayName} 
+                                      mentorName={this.state.ninja.mentorName}
+                                      mentorEmail={this.state.ninja.mentorEmail}
+                                      datepicker={this.state.ninja.joinDate} 
+                                      handleChange={this.handleChange} 
+                                      handleSubmit={this.handleSubmit} 
+                                    />
 
-                                                <div>
-                                                    <TextField onChange={this.handleChange(ninja, 'joinDate')}
-                                                        id="joinDate"
-                                                        label="Join Date"
-                                                        type="date"
-                                                        defaultValue={ninja.joinDate}
-                                                        className={classes.textField}
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                        margin="normal"
-                                                    />
-                                                </div>  
-                                            </div>
-                                        </Grid>
-    
-                                        <Grid item className={classes.indentation}> </Grid>
-                                
-                                    </Grid>
-    
                                 </CardContent>
                                 
                             </Card>
@@ -450,6 +402,7 @@ class activeProtege extends Component{
                     onClose={this.closeDeleteDialog}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
+                    className={classes.dialog}
                     >
                     
                         <DialogTitle className={classes.dialog}>
@@ -486,7 +439,7 @@ class activeProtege extends Component{
                                 </Avatar>
                             }
                             action = {
-                                <div> 
+                                <div className={classes.actionbutton}> 
                                     <IconButton>
                                         <ReviveIcon className={classes.button} onClick={this.openReviveDialog.bind(this, ninja)} />
                                     </IconButton>
@@ -551,6 +504,7 @@ class activeProtege extends Component{
                     onClose={this.closeReviveDialog}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
+                    className={classes.dialog}
                     >
                     
                         <DialogTitle className={classes.dialog}>
@@ -579,6 +533,7 @@ class activeProtege extends Component{
                     onClose={this.closePermaDeleteDialog}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
+                    className={classes.dialog}
                     >
                     
                         <DialogTitle className={classes.dialog}>

@@ -86,7 +86,7 @@ class AddMe extends Component {
         let display;
 
         if (_showMessage) {
-            display = <ShowAddBar onClick={this.hideMessage} onSubmit={this.handleSubmit} handleChange={this.handleChange} />;
+            display = <ShowAddBar ninja={this.state.displayName} onClick={this.hideMessage} onSubmit={this.handleSubmit} handleChange={this.handleChange} />;
         } else {
             display = <ShowAddButton onClick={this.showMessage} props/>
         }
